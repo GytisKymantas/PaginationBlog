@@ -1,0 +1,50 @@
+---
+title: 'How to Make Pixel Paintings with Google Spreadsheets'
+date: '2020-05-27T09:00:37.000Z'
+slug: '/software/turn-images-into-pixel-art/12978/'
+category: 'Software'
+tags:
+  - 'Archives'
+  - 'Google Sheets'
+  - 'Screencast'
+---
+
+You have been using Google Sheets for budgeting and business but there's another interesting use of spreadsheets - you can use them to create impressive pixel paintings in minutes.
+
+Marina and Mallory [created](https://www.youtube.com/watch?v=eTjjhLi0Xtk) a bright and beautiful wall mural using Google Sheets. Japanese artist [Tatsuo Horiuchi](https://www.youtube.com/watch?v=OrwBc6PwAcY) uses Microsoft Excel to draw masterpieces.
+
+The idea is simple. Each cell in the spreadsheet corresponds to a pixel in the painting. You find the color of the pixel and set that as the background color of the corresponding cell in the sheet. Now resize the cells in small perfect squares and your spreadsheet will resemble the original artwork.
+
+## How to Paint with Google Spreadsheets
+
+If you would like to create your own spreadsheet art but don't have the time to carefully paint every cell manually, here's a simple workaround for you. You can take any photograph, vector art, GIF, or any other image and use Google Sheets to convert that bitmap image into spreadsheet art.
+
+Here's some artwork created with Google Spreadsheets.
+
+Watch the **[video tutorial](https://youtu.be/hoHvxbKDO00)** or open this **[Google Sheet](http://bit.ly/MadeWithGoogleSheets)** to explore more artwork made with Google Sheets. You can increase the zoom to view individual pixels.
+
+### Create Pixel Art with Google Sheets
+
+It takes three easy steps to make pixel art with Google Sheets.
+
+1. Install [Pixel Art](https://gsuite.google.com/marketplace/app/appname/881112366576) for Google Sheets.
+2. Type `sheets.new` in the browser to create a new Google Sheet. Go to Add-ons menu, choose Pixel Art and then select Open.
+3. Upload any image from your desktop, hit the Draw button and watch as your sheet magically transforms into beautiful art.
+
+Check this [Google Sheet](http://bit.ly/MadeWithGoogleSheets) for more examples.
+
+#### How Pixel Art Works?
+
+The underlying [Google Script](/code/19848-google-spreadsheets-colors) will now parse every single pixel of your image and write the corresponding [hex color codes](/internet/design/web-colors-in-hexadecimal/5456/) in the cells of the spreadsheet.
+
+It will then set the background color of every cell as the color of the corresponding pixel in the uploaded image. If you have chosen the 'emoji' option, the cell will be filled with the closest emoji that matches the color of the pixel.
+
+In the last step, the Google Script will resize the cells and turn them into perfect squares. That's it. Your spreadsheet art is now ready.
+
+<Button link="https://gsuite.google.com/marketplace/app/appname/881112366576">
+  Download Pixel Art
+</Button>
+
+If you choose to transform your picture into emojis pixels, the script takes the average color of the pixel, finds the closest emoji and adds it to the corresponding cell in the sheet. The emoji module is based on the work of [Monica Dinculescu](https://github.com/notwaldorf/emojillate).
+
+https://youtu.be/hoHvxbKDO00

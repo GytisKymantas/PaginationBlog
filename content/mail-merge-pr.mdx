@@ -1,0 +1,76 @@
+---
+title: 'How to Pitch Journalists and Bloggers with Mail Merge for Gmail'
+date: '2020-04-09'
+slug: '/mail-merge-pr-outreach-200409'
+category: 'Internet'
+description: 'Mail Merge for Gmail is the ultimate journalist outreach tool for Marcom and PR professionals. Send personalized and targeted email pitches and press releases to your media contacts with Gmail.'
+tags:
+  - 'Archives'
+  - 'Mail Merge for Gmail'
+---
+
+John is a public relations professional and he is often required you to send press releases and event invites to journalists, bloggers and influencers via email.
+
+Reaching out to individual journalists can be slow so how do you send the same email to multiple people in one go? Some people use the BCC option in Gmail - compose a single email, put email addresses of all recipients in the BCC field and hit send.
+
+That’s obviously the easiest option for sending bulk emails through Gmail but such generic email pitches are unlikely to get noticed.
+
+`video: https://www.youtube.com/watch?v=ChGBcFtYdVA`
+
+## Send Email Pitches with Gmail
+
+In this [tutorial](https://www.youtube.com/watch?v=ChGBcFtYdVA), I’ll show you how you can use [send personalised email](/internet/personalized-mail-merge-in-gmail/20981/) pitches to your media contacts through Gmail and Google Sheets. You’ll be able to schedule your press releases in advance and also track which influencers have seen your emails.
+
+The big advantage is that, unlike other mass email programs, messages sent via Mail merge are delivered just like regular emails directly in the Inbox.
+
+Let’s get started:
+
+### How to use Mail Merge with Gmail
+
+Go to the GSuite Marketplace and install the [Gmail Mail Merge](https://gsuite.google.com/marketplace/app/mail_merge_with_attachments/223404411203) addon. You’ll need to grant certain [permissions](/mail-merge-privacy-7169) so that the add-on can send emails from your Gmail accounts. It also needs permission to attach files from your Google Drive.
+
+Now that the add-on is installed, type `sheets.new` in your browser to create a new Google Sheet. Inside the sheet, go to the Addons menu, choose “Mail Merge with Attachments” and then select the “Create Merge Template” menu.
+
+Your sheet now has all the essential columns that are required for running mail merge but can add more columns. We’ll add `Location` and `News Outlet` columns as shown in the above screenshot.
+
+The next task is to get the media list into this Google Sheet. You can either import groups from Google Contacts, from your Mailchimp campaigns or, if you are an Excel user, export as CSV and directly import the CSV file into Google Sheets.
+
+#### Create an Email Template for Merge
+
+Open your Gmail, create a new email message (see screenshot) and save the template in your drafts folder. The email can have `{{markers}}` enclosed in double curly braces and these are replaced with actual values from the Google Sheet in your outgoing emails.
+
+When we enclose some text inside double curly braces, it becomes a [marker](/mail-merge-variable-fields-7086) and these are replaced with values in the sheet. You can also add emojis in the subject and body.
+
+Next, we can add some attachments to our email template. You can either upload files from your computer or you can bring directly from your Google Drive.
+
+#### Configure and Run Mail Merge
+
+Now that our email template in Gmail is ready, go back to your Google Sheet and choose `Configure mail merge` from the Mail Merge menu under add-ons.menu.
+
+Follow the step by step wizard to configure merge but there are a few important things you should know.
+
+1. You can send emails on behalf of any email address that is associated as an [alias in your Gmail account](https://digitalinspiration.com/docs/mail-merge/email-alias). So an intern can send emails on behalf of the manager while logged into her own Google account.
+2. You can add a [CC or BCC email address](https://digitalinspiration.com/docs/mail-merge/cc-bcc) and all your merged emails will be copied to them as well. Remember that Gmail counts every CC or BCC recipient as a separate email and thus it counts towards your [daily email quota](https://digitalinspiration.com/docs/mail-merge/email-quota).
+3. Mail Merge includes email tracking so you can know who opened your email or clicked the links. For email newsletters, you can even include an unsubscribe option in your email messages.
+
+After the configuration is done, go to the Send Email Section, select the Send a test email option and hit the Go button.
+
+Mail Merge will take the merge data from the first row in the Google Sheet and send you a test email. You can find the test email in your Gmail Sent folder.
+
+If you are satisfied with the test email, go back to the Google Sheet, select the Run Mail Merge option and hit Go to perform a live merge. That’s it.
+
+The emails will be dispatched immediately and you can check the Mail Merge Status column in the sheet to track the sending progress.
+
+You can add more rows in the Google Sheet to send the same email to another batch of people and when you hit send, Mail Merge will automatically ignore the rows that have already been sent the email.
+
+#### Mail Merge - Tips and Tricks
+
+1. You can [schedule emails](https://digitalinspiration.com/docs/mail-merge/schedule-emails) - just add a date and time in the Scheduled Date column and run merge again to schedule the emails.
+2. If you have a lot of rows in the sheet, you can skip sending emails to [specific rows](https://digitalinspiration.com/docs/mail-merge/skip-rows-for-merge) by hiding those rows in the Google Sheet. Alternatively, you may use filters in Google Sheets to only show rows that match certain criteria. When you run merge again, emails will be sent to visible rows only.
+3. If you wish to cancel scheduled emails, you can either empty the scheduled date column or you can go to the Mail Merge menu, choose Help and click the Cancel Scheduled Mail option.
+4. With Mail merge you can also send different attachments to different people. See [how-to guide](https://digitalinspiration.com/docs/mail-merge/attachments).
+5. You can also create drafts with Mail Merge and this is a handy option if you wish to review the emails manually before sending them to real people.
+
+<Button link="https://gsuite.google.com/marketplace/app/mail_merge_with_attachments/223404411203">
+  Get Gmail Mail Merge
+</Button>

@@ -1,0 +1,108 @@
+---
+title: 'Track Coronavirus (COVID-19) Cases in India with Google Sheets'
+date: '2020-03-25'
+slug: '/code/covid-19-india-tracker-200325'
+category: 'Code'
+description: 'The Coronavirus (COVID-19) tracker uses sparklines in Google Sheets to help you visualize the spread of the coronavirus outbreak across different states of India over time.'
+tags:
+  - 'Google Apps Script'
+  - 'Google Sheets'
+  - 'Archives'
+  - 'Coronavirus'
+---
+
+The Government of India website has a [live dashboard](https://www.mohfw.gov.in/#cases) that provides, in near real-time, the number of Coronavirus (COVID-19) cases in various states of India. This is the best resource to get updates around active COVID-19 cases in India.
+
+## COVID-19 Tracker for India
+
+The official website provides the current data but if you were to check how the number of confirmed cases increased in India over time, there's no historic data available. That's one reason I built the [COVID-19 Tracker](https://docs.google.com/spreadsheets/d/1swdjquWqq5tjMm9tpxMa-9C8rjCyWVWHs-ODdAXfWDw/edit?usp=sharing) with Google Sheets.
+
+The tracker scrapes data from the official website every few minutes and uses Sparklines to help you visualize how the coronavirus outbreak is spreading in India over time. The Government has been actively publishing reports since March 10 and all the data can also be accessed through the Google Sheet.
+
+<Button link="https://docs.google.com/spreadsheets/d/1swdjquWqq5tjMm9tpxMa-9C8rjCyWVWHs-ODdAXfWDw/edit?usp=sharing">
+  COVID-19 Sheets Tracker
+</Button>
+
+### COVID-19 JSON API
+
+If you are a developer, I've also published the data as a [JSON API](https://bit.ly/covid19json) that will provide you the latest state-wise data of COVID-19 cases as available on the Ministry of Health and Family Welfare website of India.
+
+### How the COVID-19 Tracker Works
+
+The [Coronavirus Tracker](https://docs.google.com/spreadsheets/d/1swdjquWqq5tjMm9tpxMa-9C8rjCyWVWHs-ODdAXfWDw/edit?usp=sharing) is written in [Google Apps Script](/topic/google-apps-script) and it uses time-based triggers to scrape numbers from the `mohfw.gov.in` website every few minutes.
+
+```javascript
+/**
+ * Scrape the homepage of mohfw.gov.in (Ministry of Health, India)
+ * website for latest numbers on Coronavirus positive cases in India
+ */
+const scrapeMOHWebsite = () => {
+  const url = 'https://www.mohfw.gov.in/';
+  const response = UrlFetchApp.fetch(url);
+  const content = response.getContentText();
+  return content.replace(/[\r\n]/g, '');
+};
+```
+
+Google Apps Script doesn't support HTML parsers like Cheerio so we had to quickly build one from scratch using [regex](https://www.labnol.org/internet/learn-regular-expressions/28841/). It grabs the HTML content of the page, looks for the `table` tag and then extracts data from individual cells of the table.
+
+If they change the layout of the website, this parser is likely to break.
+
+```js
+/**
+ * Parse the webpage content and extract numbers from the HTML
+ * table that contains statewise data on Covid-19 Cases in India
+ */
+const getCurrentCovid19Cases = (json = true) => {
+  const states = {};
+  const html = scrapeMOHWebsite();
+  const [table] = html.match(/<div id="cases".+?>(.+)<\/div>/);
+  const rows = table.match(/<tr>(.+?)<\/tr>/g);
+  rows.forEach((row) => {
+    const cells = row.match(/<td.+?>(.+?)<\/td>/g).map((cell) => cell.replace(/<.+?>/g, ''));
+    const [, stateName, indianNationals, foreignNationals] = cells;
+    if (/[a-z\s]/i.test(stateName)) {
+      states[stateName] = Number(indianNationals) + Number(foreignNationals);
+    }
+  });
+  return json ? states : JSON.stringify(states);
+};
+```
+
+Once we have the data in JSON format, we can easily write to a Google Spreadsheet using Apps Script. The script adds a new column per day while retaining the old data for comparison.
+
+```js
+/**
+ * Write the parsed data into a new column in Google Sheet
+ * All the historic data is also preserved in the sheet.
+ */
+const writeNewCovid19CasesToSheets = (covid19Cases) => {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Dashboard');
+  const states = sheet
+    .getRange(3, 1, sheet.getLastRow() - 2, 1)
+    .getValues()
+    .map(([state]) => [covid19Cases[state] || 0]);
+  sheet
+    .getRange(2, sheet.getLastColumn() + 1, states.length + 1, 1)
+    .setValues([[new Date()], ...states.map((count) => [count])]);
+};
+```
+
+The COVID-19 tracker in Google Sheets also provides a JSON API that you can use to import data directly in your apps and websites.
+
+To publish a JSON API, we have published the script as a web app with the `doGet` callback function. The `ContentService` service returns the raw JSON output whenever an external app invokes the Google script URL.
+
+```js
+const doGet = () => {
+  const key = 'Covid19India';
+  const cache = CacheService.getScriptCache();
+  let data = cache.get(key);
+  if (data === null) {
+    data = getCurrentCovid19Cases(false);
+    cache.put(key, data, 21600);
+  }
+  return ContentService.createTextOutput(data).setMimeType(ContentService.MimeType.JSON);
+};
+```
+
+All the code is open-source and you are free to use in any project.
