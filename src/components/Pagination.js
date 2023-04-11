@@ -1,27 +1,24 @@
 import Link from 'next/link';
 
 export function Pagination({ totalPages, currentPage, tag = 'page' }) {
-  let hasPrevPage = currentPage - 1 > 0;
   let hasNextPage = currentPage + 1 <= totalPages;
+
+  let firstPage = Number(currentPage) === 0;
 
   return (
     <div className='space-y-2 bg-green-200 p-8'>
       <nav className='flex justify-between'>
-        {!hasPrevPage && (
+        <Link href={currentPage - 1 === 0 ? `/` : `/${tag}/${currentPage - 1}`}>
           <button
-            className='umami--click--prev-posts cursor-auto disabled:opacity-50'
-            disabled={!hasPrevPage}
+            className={
+              firstPage &&
+              'umami--click--prev-posts cursor-auto disabled:opacity-50'
+            }
+            disabled={firstPage}
           >
             Previous
           </button>
-        )}
-        {hasPrevPage && (
-          <Link
-            href={currentPage - 1 === 1 ? `/` : `/${tag}/${currentPage - 1}`}
-          >
-            <button>Previous</button>
-          </Link>
-        )}
+        </Link>
         <span>
           {currentPage} of {totalPages}
         </span>

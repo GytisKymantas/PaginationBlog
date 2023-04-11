@@ -5,15 +5,14 @@ import { POSTS_PER_PAGE } from '@/lib/utils/constants';
 
 export default async function ArchivePages({ params }) {
   const { slug = [] } = params;
-  let currentPage = parseInt(slug[1]) === 1 ? 0 : slug[1];
+  let currentPage = parseInt(slug[1]) - 1;
   const query = decodeURIComponent(slug[0]).replace(/%20/g, ' ');
   const filteredArray = BLOG_POSTS.filter((obj) => obj.tags.includes(query));
 
-  let totalPages = Math.ceil(filteredArray?.length / POSTS_PER_PAGE);
-  let hasPrevPage = currentPage - 1 > 0;
+  let totalPages = Math.ceil(filteredArray?.length / POSTS_PER_PAGE - 1);
+  let hasPrevPage = currentPage > 0;
 
   let lastPage = Number(currentPage) === totalPages;
-
   return (
     <div className='prose max-w-prose'>
       <div>
@@ -25,10 +24,7 @@ export default async function ArchivePages({ params }) {
         </h1>
       </div>
       {filteredArray
-        ?.slice(
-          currentPage === 1 ? 0 : currentPage * 10,
-          currentPage * 10 + POSTS_PER_PAGE
-        )
+        ?.slice(currentPage * 10, currentPage * 10 + POSTS_PER_PAGE)
         .map(({ title, slug }, index) => {
           return (
             <li key={index}>
@@ -50,16 +46,16 @@ export default async function ArchivePages({ params }) {
           {hasPrevPage && (
             <Link
               href={
-                currentPage - 1 === 1
-                  ? `/tag/${query}/1`
-                  : `/tag/${query}/${currentPage - 1}`
+                currentPage === 0
+                  ? `/tag/}`
+                  : `/tag/${query}/${Number(slug[1]) - 1}`
               }
             >
               <button>Previous</button>
             </Link>
           )}
           <span>
-            {currentPage === 0 ? 1 : currentPage} of {totalPages}
+            {currentPage + 1} of {totalPages + 1}
           </span>
           <Link href={`/tag/${query}/${parseInt(slug[1]) + 1}`}>
             <button

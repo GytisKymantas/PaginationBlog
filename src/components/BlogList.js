@@ -30,7 +30,7 @@ export default function BlogList({ page = 0 }) {
       </ul>
       <Pagination
         currentPage={Number(currentPage)}
-        totalPages={Math.ceil(BLOG_POSTS?.length / POSTS_PER_PAGE)}
+        totalPages={Math.ceil(BLOG_POSTS?.length / POSTS_PER_PAGE - 1)}
       />
     </>
   );
