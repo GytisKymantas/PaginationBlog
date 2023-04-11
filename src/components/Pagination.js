@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export function Pagination({ totalPages, currentPage }) {
+export function Pagination({ totalPages, currentPage, tag = 'page' }) {
   let hasPrevPage = currentPage - 1 > 0;
   let hasNextPage = currentPage + 1 <= totalPages;
 
@@ -16,7 +16,9 @@ export function Pagination({ totalPages, currentPage }) {
           </button>
         )}
         {hasPrevPage && (
-          <Link href={currentPage - 1 === 1 ? `/` : `/page/${currentPage - 1}`}>
+          <Link
+            href={currentPage - 1 === 1 ? `/` : `/${tag}/${currentPage - 1}`}
+          >
             <button>Previous</button>
           </Link>
         )}
@@ -32,7 +34,7 @@ export function Pagination({ totalPages, currentPage }) {
           </button>
         )}
         {hasNextPage && (
-          <Link href={`/page/${currentPage + 1}`}>
+          <Link href={`/${tag}/${currentPage + 1}`}>
             <button>Next</button>
           </Link>
         )}
